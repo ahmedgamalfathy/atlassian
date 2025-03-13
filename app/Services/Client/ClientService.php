@@ -8,7 +8,7 @@ use App\Models\Clients\ClientEmail;
 use App\Models\Clients\ClientPhone;
 use App\Enums\Client\AddableToBulck;
 use App\Filters\Client\FilterClient;
-use App\Models\clients\ClientAddress;
+use App\Models\Clients\ClientAddress;
 use Spatie\QueryBuilder\QueryBuilder;
 use Spatie\QueryBuilder\AllowedFilter;
 
