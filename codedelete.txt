@@ -1,0 +1,75 @@
+ //check clientPhone//
+$clientPhones=ClientPhone::where("client_id",$data["clientId"])->get('id')->pluck('id')->toArray();
+ if(!in_array($clientPhoneId,$clientPhones)){
+     return response()->json([
+         "message"=>__("messages.error.unauthorized"),
+     ]);
+ }
+
+//save clientPhonesId//
+            foreach ($data["clientPhonesId"] as $clientPhoneId) {
+                $reservationPhone=new ReservationPhone();
+                $reservationPhone->reservation_id= $reservation->id;
+                $reservationPhone->phone_id=$clientPhoneId;
+                $reservationPhone->save();
+              }
+...........................................
+//check clientEmail//
+$clientEmails=ClientEmail::where("client_id",$data["clientId"])->get('id')->pluck('id')->toArray();
+if(!in_array($clientEmailId,$clientEmails)){
+return response()->json([
+"message"=>__("messages.error.unauthorized"),
+]);
+}
+
+//save clientEmailsId//
+            foreach ($data["clientEmailsId"] as $clientEmailId) {
+               $reservationEmail=new ReservationEmail();
+               $reservationEmail->reservation_id= $reservation->id;
+               $reservationEmail->email_id=$clientEmailId;
+               $reservationEmail->save();
+              }
+..........................................................................................
+update reservation
+
+               $clientPhones = ClientPhone::where("client_id", $data["clientId"])->pluck('id')->toArray();
+                foreach ($data["clientPhonesId"] as $clientPhoneId) {
+                    if (!in_array($clientPhoneId, $clientPhones)) {
+                        return response()->json([
+                            "message" => __("messages.error.unauthorized"),
+                        ]);
+                    }
+                    $clientPhone = ReservationPhone::where("phone_id",$clientPhoneId);
+                    $clientPhone->reservation_id = $reservation->id;
+                    $clientPhone->phone_id = $clientPhoneId;
+                    $clientPhone->save();
+
+.............................................................................................
+                $clientEmails = ClientEmail::where("client_id", $data["clientId"])->get('id')->pluck('id')->toArray();
+                foreach ($data["clientEmailsId"] as $clientEmailId) {
+                    if (!in_array($clientEmailId, $clientEmails)) {
+                        return response()->json([
+                            "message" => __("messages.error.unauthorized"),
+                        ]);
+                    }
+                    $clientEmail = ReservationEmail::where("email_id",$clientEmailId);
+                    $clientEmail->reservation_id = $reservation->id;
+                    $clientEmail->email_id = $clientEmailId;
+                    $clientEmail->save();
+....................................................................................................................
+[
+    {
+    "day": "thursday",
+    "date": null, "type": "fixed",
+    "restEachTime": "0",
+    "availableTimes": ["08:00 - 12:00", "14:00 - 17:00"],
+    "appointmentTime": "30"
+    },
+    {
+    "day": null, "date": "2025-03-23",
+    "type": "dedicated",
+    "restEachTime": "10",
+    "availableTimes": ["10:00 - 12:00"],
+    "appointmentTime": "30"
+    }
+ ]
