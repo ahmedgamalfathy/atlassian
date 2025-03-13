@@ -1,7 +1,7 @@
 <?php
 namespace App\Services\Select;
 use App\Models\Clients\Client;
-use App\Models\clients\ClientEmail;
+use App\Models\Clients\ClientEmail;
 use App\Models\Clients\ClientPhone;
 
 class ClientSelectService{

@@ -121,7 +121,12 @@ class ClientService{
 
     public function deleteClient(string $clientId){
 
-            $client = Client::findOrFail($clientId);
+            $client = Client::find($clientId);
+            if(!$client){
+                return response()->json([
+                    'message'=>__('messages.error.not_found')
+                ]);
+            }
             $client->delete();
             return $client;
 

@@ -119,7 +119,9 @@ class ClientController extends Controller
 
         } catch (\Exception $e) {
             DB::rollBack();
-            throw $e;
+            // return response()->json([
+            //     'message'=>__('messages.error.not_found')
+            // ]);
         }
 
 
