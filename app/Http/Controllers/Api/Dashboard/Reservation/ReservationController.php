@@ -30,7 +30,7 @@ class ReservationController extends Controller
         $this->middleware('permission:edit_reservation', ['only' => ['edit']]);
         $this->middleware('permission:update_reservation', ['only' => ['update']]);
         $this->middleware('permission:delete_reservation', ['only' => ['delete']]);
-         $this->FreeReservation=$freeReservationServices;
+        //  $this->FreeReservation=$freeReservationServices;
     }
     public function index(Request $request){
         $reservations=QueryBuilder::for(Reservation::class)
