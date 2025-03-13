@@ -13,7 +13,7 @@ use Spatie\QueryBuilder\QueryBuilder;
 use App\Models\Reservations\Reservation;
 use App\Models\Reservations\ReservationEmail;
 use App\Models\Reservations\ReservationPhone;
-use App\Services\Reservation\FreeReservationServices;
+// use App\Services\Reservation\FreeReservationServices;
 use App\Http\Resources\Reservation\ReservationResource;
 use App\Http\Resources\Reservation\ReservationEditResource;
 use App\Http\Resources\Reservation\AllReservationResourceCollection;
@@ -22,7 +22,7 @@ class ReservationController extends Controller
 {
 
     public $FreeReservation;
-    public function __construct(FreeReservationServices $freeReservationServices)
+    public function __construct()
     {
         $this->middleware('auth:api');
         $this->middleware('permission:all_reservation', ['only' => ['index']]);
