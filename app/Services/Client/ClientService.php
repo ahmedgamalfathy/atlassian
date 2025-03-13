@@ -4,7 +4,7 @@ namespace App\Services\Client;
 
 use App\Models\Clients\Client;
 use App\Enums\Client\AddableToBulk;
-use App\Models\clients\ClientEmail;
+use App\Models\Clients\ClientEmail;
 use App\Models\Clients\ClientPhone;
 use App\Enums\Client\AddableToBulck;
 use App\Filters\Client\FilterClient;
