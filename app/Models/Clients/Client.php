@@ -3,9 +3,9 @@
 namespace App\Models\Clients;
 
 
-use App\Models\clients\ClientEmail;
+use App\Models\Clients\ClientEmail;
 use App\Models\Clients\ClientPhone;
-use App\Models\clients\ClientAddress;
+use App\Models\Clients\ClientAddress;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Reservations\Reservation;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
