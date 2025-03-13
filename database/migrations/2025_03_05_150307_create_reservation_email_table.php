@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\clients\ClientEmail;
+use App\Models\Clients\ClientEmail;
 use App\Models\Reservations\Reservation;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
