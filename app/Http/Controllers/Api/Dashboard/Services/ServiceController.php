@@ -7,8 +7,12 @@ use App\Models\Services\Service;
 use App\Utils\PaginateCollection;
 use App\Http\Controllers\Controller;
 use App\Enums\Services\ServiceActive;
-use App\Http\Resources\Service\ServiceEditResource;
+use App\Filters\Service\ServiceFilterDate;
+use App\Http\Requests\Service\CreateServiceRequest;
+use App\Http\Requests\Service\UpdateServiceRequest;
 use Spatie\QueryBuilder\QueryBuilder;
+use Spatie\QueryBuilder\AllowedFilter;
+use App\Http\Resources\Service\ServiceEditResource;
 use App\Http\Resources\Service\ServiceResourceCollection;
 use Symfony\Component\HttpKernel\DependencyInjection\ServicesResetter;
 
@@ -40,14 +44,15 @@ class ServiceController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function create(Request $request)
+    public function create(CreateServiceRequest $createServiceRequest)
     {
     try {
-        $service = Service::create([
-            "title"=>$request->title,
-            "color"=>$request->color,
-            "is_active"=>ServiceActive::from($request->post('IsActive'))->value,
-            "description"=>$request->description,
+        $data= $createServiceRequest->validated();
+        Service::create([
+            "title"=>$data["title"],
+            "color"=>$data['color'],
+            "is_active"=>ServiceActive::from($data['isActive'])->value,
+            "description"=>$data["description"],
         ]);
         return response()->json([
             "message"=>__("messages.success.created"),
@@ -80,15 +85,16 @@ class ServiceController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request)
+    public function update(UpdateServiceRequest $updateServiceRequest)
     {
     try{
-        $service =Service::findOrFail($request->get("serviceId"));
+        $data=$updateServiceRequest->validated();
+        $service =Service::findOrFail($data['serviceId']);
         $service->update([
-            "title"=>$request->title,
-            "color"=>$request->color,
-            "is_active"=>ServiceActive::from($request->post('IsActive'))->value,
-            "description"=>$request->description,
+            "title"=>$data['title'],
+            "color"=>$data['color'],
+            "is_active"=>ServiceActive::from($data['isActive'])->value,
+            "description"=>$data['description'],
         ]);
         return response()->json([
             "message"=>__("messages.success.updated"),

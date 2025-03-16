@@ -7,16 +7,21 @@ use App\Utils\PaginateCollection;
 use Illuminate\Support\Facades\DB;
 use App\Models\clients\ClientEmail;
 use App\Models\Clients\ClientPhone;
+use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Client\ClientReservation\ClientReservationResource;
 use Spatie\QueryBuilder\QueryBuilder;
+use Spatie\QueryBuilder\AllowedFilter;
 use App\Models\Reservations\Reservation;
 use App\Models\Reservations\ReservationEmail;
-use App\Models\Reservations\ReservationPhone;
 // use App\Services\Reservation\FreeReservationServices;
+use App\Models\Reservations\ReservationPhone;
+use App\Filters\Reservation\ReservationFilterDate;
+use App\Http\Requests\Reservation\CreateReservationRequest;
+use App\Http\Requests\Reservation\UpdateReservationRequest;
 use App\Http\Resources\Reservation\ReservationResource;
 use App\Http\Resources\Reservation\ReservationEditResource;
 use App\Http\Resources\Reservation\AllReservationResourceCollection;
+use App\Http\Resources\Client\ClientReservation\ClientReservationResource;
 
 class ReservationController extends Controller
 {
@@ -33,17 +38,21 @@ class ReservationController extends Controller
         //  $this->FreeReservation=$freeReservationServices;
     }
     public function index(Request $request){
-        $reservations=QueryBuilder::for(Reservation::class)
-        ->allowedFilters(['date'])
+
+        $reservations= QueryBuilder::for(Reservation::class)
+        ->allowedFilters([
+            AllowedFilter::custom('date', new ReservationFilterDate),
+        ])
         ->get();
+
         return response()->json([
             "data"=>  new AllReservationResourceCollection( PaginateCollection::paginate($reservations,$request->pageSize?$request->pageSize:10)),
         ]);
     }
-    public function create(Request $request){
+    public function create(CreateReservationRequest $createReservationRequest){
         DB::beginTransaction();
         try{
-        $data=$request->all();
+        $data=$createReservationRequest->validated();
         $reservation= Reservation::create([
             "client_id"=>$data["clientId"],
             "service_id"=>$data["serviceId"],
@@ -70,10 +79,10 @@ class ReservationController extends Controller
       }
       return response()->json(["data"=>new ClientReservationResource($reservation) ]);
     }
-    public function update(Request $request){
+    public function update(UpdateReservationRequest $updateReservationRequest){
         DB::beginTransaction();
         try {
-            $data = $request->all();
+            $data = $updateReservationRequest->validated();
             $reservation = Reservation::findOrFail($data["reservationId"]);
             $reservation->update([
                 "client_id" => $data["clientId"],
