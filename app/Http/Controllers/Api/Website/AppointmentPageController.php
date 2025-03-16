@@ -5,14 +5,15 @@ namespace App\Http\Controllers\Api\Website;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Reservation\CreateReservationRequest;
 use App\Models\Reservations\Reservation;
 
 class AppointmentPageController extends Controller
 {
-    public function create(Request $request){
+    public function create(CreateReservationRequest $createReservationRequest){
         DB::beginTransaction();
         try{
-        $data=$request->all();
+        $data=$createReservationRequest->validated();
         $reservation= Reservation::create([
             "client_id"=>$data["clientId"],
             "service_id"=>$data["serviceId"],

@@ -15,6 +15,7 @@ use App\Http\Controllers\Api\Dashboard\Schedule\ScheduleController;
 use App\Http\Controllers\Api\Dashboard\Reservation\ReservationController;
 use App\Http\Controllers\Api\Dashboard\Reservation\FreeReservationScheduleController;
 use App\Http\Controllers\Api\Website\AppointmentPageController;
+use App\Http\Controllers\Api\Website\ServicePageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -100,6 +101,11 @@ Route::prefix("v1/{lang}/admin")->group(function (){
 Route::prefix("v1/{lang}/website")->group(function(){
 
     Route::post('appointment', [AppointmentPageController::class,'create']);
+    Route::get('services',[ServicePageController::class,'index']);
+    Route::controller(ServicePageController::class)->prefix('/services')->group(function(){
+        Route::get('','index');
+        Route::get('edit','edit');
+    });
 
 });
 

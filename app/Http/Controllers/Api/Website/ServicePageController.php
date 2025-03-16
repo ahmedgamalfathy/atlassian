@@ -16,15 +16,16 @@ class ServicePageController extends Controller
     {
         $services = QueryBuilder::for(Service::class)
         ->allowedFilters(["title","color"])
+        ->where('is_active',1)->whereNotNull('schedule_id')
         ->get();
         return response()->json([
             "data"=> new ServiceResourceCollection( PaginateCollection::paginate($services,$request->pageSize?$request->pageSize:10)),
         ]);
     }
-    public function show(Request $request, $slug, $singleSlug)
+    public function edit(Request $request)
     {
         try {
-            $service = Service::findOrFail( $singleSlug);
+            $service = Service::findOrFail( $request->serviceId);
             return response()->json([
                 "data"=>new ServiceEditResource($service)
             ]);
