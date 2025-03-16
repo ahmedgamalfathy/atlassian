@@ -12,10 +12,7 @@ use App\Http\Controllers\Api\Dashboard\Client\ClientController;
 use App\Http\Controllers\Api\Dashboard\Select\SelectController;
 use App\Http\Controllers\Api\Dashboard\Services\ServiceController;
 use App\Http\Controllers\Api\Dashboard\Schedule\ScheduleController;
-use App\Http\Controllers\Api\Dashboard\FrontPage\FrontPagecontroller;
-use App\Http\Controllers\Api\Dashboard\FrontPage\PageSectionController;
 use App\Http\Controllers\Api\Dashboard\Reservation\ReservationController;
-use App\Http\Controllers\Api\Dashboard\FrontPage\FrontPageSectionController;
 use App\Http\Controllers\Api\Dashboard\Reservation\FreeReservationScheduleController;
 use App\Http\Controllers\Api\Website\AppointmentPageController;
 
@@ -97,28 +94,11 @@ Route::prefix("v1/{lang}/admin")->group(function (){
         Route::get('/free-schedules','index');
         Route::get('free-schedules/check-availability','checkAvailability');
     });
-    Route::controller(FrontPagecontroller::class)->prefix('/front-pages')->group(function(){
-    Route::get('', 'index');
-    Route::post('create', 'create');
-    Route::get('edit', 'edit');
-    Route::put('update', 'update');
-    Route::delete('delete', 'delete');
-    });
-    Route::controller(PageSectionController::class)->prefix('/page-section')->group(function(){
-        Route::post('create','store');
-    });
-    Route::controller(FrontPageSectionController::class)->prefix('/front-page-sections')->group(function(){
-        Route::get('',  'index');
-        Route::post('create',  'create');
-        Route::get('edit',  'edit');
-        Route::put('update',  'update');
-        Route::delete('delete',  'delete');
-    });
+
 });
 
 Route::prefix("v1/{lang}/website")->group(function(){
-    Route::get('', [DynamicPageController::class, 'index'])->name('dynamic.page');
-    Route::get('show', [DynamicPageController::class, 'show'])->name('dynamic.page.show');
+
     Route::post('appointment', [AppointmentPageController::class,'create']);
 
 });
