@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Models\Reservations\Reservation;
 use App\Http\Controllers\FrontPages\DynamicPageController;
 use App\Http\Controllers\Api\Dashboard\Auth\AuthController;
+use App\Http\Controllers\Api\Dashboard\Auth\ForgotPasswordController;
 use App\Http\Controllers\Api\Dashboard\User\UserController;
 use App\Http\Controllers\Api\Dashboard\Email\EmailController;
 use App\Http\Controllers\Api\Dashboard\Phone\PhoneController;
@@ -16,6 +17,7 @@ use App\Http\Controllers\Api\Dashboard\Reservation\ReservationController;
 use App\Http\Controllers\Api\Dashboard\Reservation\FreeReservationScheduleController;
 use App\Http\Controllers\Api\Website\AppointmentPageController;
 use App\Http\Controllers\Api\Website\ServicePageController;
+use App\Mail\ForgotPasswordSendCode;
 
 /*
 |--------------------------------------------------------------------------
@@ -37,6 +39,13 @@ Route::prefix("v1/{lang}/admin")->group(function (){
     Route::controller(AuthController::class)->group(function(){
          Route::post("login", "login");
          Route::post("logout", "logout");
+    });
+    Route::controller(ForgotPasswordController::class)->prefix('forgotPassword')->group(function(){
+        Route::post("sendCode","sendCodeEmail");
+        Route::post('verifyCode','verifyCodeEmail');
+        Route::post('resendCode','resendCode');
+        Route::post('newPassword','newPassword');
+
     });
     Route::controller(ServiceController::class)->prefix("/services")->group(function(){
         Route::get("", "index");
