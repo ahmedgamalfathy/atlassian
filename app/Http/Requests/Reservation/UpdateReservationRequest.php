@@ -24,8 +24,8 @@ class UpdateReservationRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "client_id"=>['required','exists:clients,id'],
-            "service_id"=>["required",'exists:services,id'],
+            "clientId"=>['required','exists:clients,id'],
+            "serviceId"=>["required",'exists:services,id'],
             "notes"=>["nullable","string"],
             "date"=>["required"],
             "clientPhonesId"=>["required","array"],

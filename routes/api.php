@@ -40,7 +40,7 @@ Route::prefix("v1/{lang}/admin")->group(function (){
          Route::post("login", "login");
          Route::post("logout", "logout");
     });
-    Route::controller(ForgotPasswordController::class)->prefix('forgotPassword')->group(function(){
+    Route::controller(ForgotPasswordController::class)->prefix('/forgotPassword')->group(function(){
         Route::post("sendCode","sendCodeEmail");
         Route::post('verifyCode','verifyCodeEmail');
         Route::post('resendCode','resendCode');
