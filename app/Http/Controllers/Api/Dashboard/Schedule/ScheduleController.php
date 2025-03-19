@@ -4,19 +4,18 @@ namespace App\Http\Controllers\Api\Dashboard\Schedule;
 
 use App\Http\Resources\Schedule\ScheduleEditResource;
 use Illuminate\Http\Request;
-use App\Models\Services\Service;
-use App\Utils\PaginateCollection;
-use App\Models\Schedules\Schedule;
 use Illuminate\Support\Facades\DB;
+use App\Utils\PaginateCollection;
 use App\Http\Controllers\Controller;
-use Spatie\QueryBuilder\QueryBuilder;
 use App\Http\Requests\Schedule\CreateScheduleRequest;
 use App\Http\Requests\Schedule\UpdateScheduleRequest;
 use App\Http\Resources\Schedule\ScheduleResourceCollection;
+use App\Services\Schedule\ScheduleService;
 
 class ScheduleController extends Controller
 {
-    public function __construct()
+    public $scheduleService;
+    public function __construct(ScheduleService $scheduleService)
     {
         //all_scheule,create_scheule,edit_scheule,update_scheule,delete_scheule
         $this->middleware('auth:api');
@@ -25,15 +24,14 @@ class ScheduleController extends Controller
         $this->middleware('permission:edit_scheule', ['only' => ['edit']]);
         $this->middleware('permission:update_scheule', ['only' => ['update']]);
         $this->middleware('permission:delete_scheule', ['only' => ['delete']]);
+        $this->scheduleService=$scheduleService;
     }
     /**
      * Display a listing of the resource.
      */
     public function index(Request $request)
     {
-        $schedules = QueryBuilder::for(Schedule::class)
-        ->allowedFilters('title')
-        ->get();
+        $schedules =$this->scheduleService->allSchedule();
       return response()->json([
         "data"=>new ScheduleResourceCollection(PaginateCollection::paginate($schedules, $request->pageSize?$request->pageSize:10))
       ]);
@@ -46,24 +44,8 @@ class ScheduleController extends Controller
     {
         try {
             DB::beginTransaction();
-            $schedule= Schedule::create([
-                "title"=>$createScheduleRequest->post('title'),
-                "times"=>$createScheduleRequest->times
-                // "times"=>json_encode($createScheduleRequest->post('times'))
-            ]);
-            $servicesId = $createScheduleRequest->post('servicesId');
-            foreach($servicesId as $serviceId)
-            {
-                $service= Service::findOrFail($serviceId);
-                if(!$service)
-                {
-                    return response()->json([
-                        "message"=>"Service not found"
-                    ]);
-                }
-                $service->schedule_id = $schedule->id;
-                $service->save();
-            }
+            $data= $createScheduleRequest->validated();
+            $this->scheduleService->createSchedule($data);
             DB::commit();
            return response()->json([
             "message"=>__('messages.success.created'),
@@ -82,7 +64,7 @@ class ScheduleController extends Controller
     public function edit(Request $request)
     {
         try {
-            $schedule=Schedule::with('services')->find($request->get('scheduleId'));
+            $schedule=$this->scheduleService->editSchedule($request->scheduleId);
             return response()->json([
               "data"=> new ScheduleEditResource($schedule)
             ]);
@@ -101,24 +83,8 @@ class ScheduleController extends Controller
     {
         try {
             DB::beginTransaction();
-            $schedule= Schedule::findOrFail($updateScheduleRequest->post('scheduleId'));
-            $schedule->update([
-                "title"=>$updateScheduleRequest->post('title'),
-                "times"=>json_encode($updateScheduleRequest->post('times'))
-            ]);
-            $servicesId = $updateScheduleRequest->post('servicesId');
-            foreach($servicesId as $serviceId)
-            {
-                $service= Service::findOrFail($serviceId);
-                if(!$service)
-                {
-                    return response()->json([
-                        "message"=>__("messages.error.not_found"),
-                    ]);
-                }
-                $service->schedule_id = $schedule->id;
-                $service->save();
-            }
+            $data=$updateScheduleRequest->validated();
+            $this->scheduleService->updateSchedule($data);
             DB::commit();
            return response()->json([
             "message"=>__('messages.success.updated'),
@@ -137,8 +103,7 @@ class ScheduleController extends Controller
     public function delete(Request $request)
     {
         try {
-            $schedule=Schedule::findOrFail($request->get("scheduleId"));
-            $schedule->delete();
+            $this->scheduleService->deleteSchedule($request->scheduleId);
             return response()->json([
              "message"=>__('messages.success.deleted')
             ]);

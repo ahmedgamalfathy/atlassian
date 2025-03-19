@@ -24,6 +24,7 @@ class UpdateScheduleRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'scheduleId'=>'required|exists:schedules,id',
             'title' => 'required|string',
             'times' => 'required|array',
             'servicesId' => 'required|array',
