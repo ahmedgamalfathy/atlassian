@@ -2,20 +2,12 @@
 
 namespace App\Http\Controllers\Api\Dashboard\Reservation;
 
+use App\Services\Reservation\ReservationService;
 use Illuminate\Http\Request;
 use App\Utils\PaginateCollection;
 use Illuminate\Support\Facades\DB;
-use App\Models\clients\ClientEmail;
-use App\Models\Clients\ClientPhone;
-use Illuminate\Support\Facades\Log;
-use App\Http\Controllers\Controller;
-use Spatie\QueryBuilder\QueryBuilder;
-use Spatie\QueryBuilder\AllowedFilter;
 use App\Models\Reservations\Reservation;
-use App\Models\Reservations\ReservationEmail;
-// use App\Services\Reservation\FreeReservationServices;
-use App\Models\Reservations\ReservationPhone;
-use App\Filters\Reservation\ReservationFilterDate;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Reservation\CreateReservationRequest;
 use App\Http\Requests\Reservation\UpdateReservationRequest;
 use App\Http\Resources\Reservation\ReservationResource;
@@ -26,8 +18,8 @@ use App\Http\Resources\Client\ClientReservation\ClientReservationResource;
 class ReservationController extends Controller
 {
 
-    public $FreeReservation;
-    public function __construct()
+    private $reservationService;
+    public function __construct( ReservationService $reservationService)
     {
         $this->middleware('auth:api');
         $this->middleware('permission:all_reservation', ['only' => ['index']]);
@@ -35,15 +27,11 @@ class ReservationController extends Controller
         $this->middleware('permission:edit_reservation', ['only' => ['edit']]);
         $this->middleware('permission:update_reservation', ['only' => ['update']]);
         $this->middleware('permission:delete_reservation', ['only' => ['delete']]);
-        //  $this->FreeReservation=$freeReservationServices;
+         $this->reservationService=$reservationService;
     }
     public function index(Request $request){
 
-        $reservations= QueryBuilder::for(Reservation::class)
-        ->allowedFilters([
-            AllowedFilter::custom('date', new ReservationFilterDate),
-        ])
-        ->get();
+        $reservations= $this->reservationService->allReservation();
 
         return response()->json([
             "data"=>  new AllReservationResourceCollection( PaginateCollection::paginate($reservations,$request->pageSize?$request->pageSize:10)),
@@ -53,18 +41,7 @@ class ReservationController extends Controller
         DB::beginTransaction();
         try{
         $data=$createReservationRequest->validated();
-        $reservation= Reservation::create([
-            "client_id"=>$data["clientId"],
-            "service_id"=>$data["serviceId"],
-            "date"=>$data["date"],
-            "notes"=> $data["notes"]??null
-        ]);
-        if($data["clientPhonesId"]){
-            $reservation->phones()->attach($data["clientPhonesId"]);
-        }
-        if($data["clientEmailsId"]){
-            $reservation->emails()->attach($data["clientEmailsId"]);
-        }
+        $reservation= $this->reservationService->createReservation($data);
         DB::commit();
         return response()->json(["message"=>__("messages.success.created")]);
     }catch(\Exception $e){
@@ -73,7 +50,7 @@ class ReservationController extends Controller
     }
     }
     public function edit(Request $request){
-      $reservation=Reservation::with('emails','phones')->find($request->reservationId);
+      $reservation=$this->reservationService->editReservation($request->reservationId);
       if(!$reservation){
         return response()->json(["message"=>__("messages.error.not_found")]);
       }
@@ -83,19 +60,7 @@ class ReservationController extends Controller
         DB::beginTransaction();
         try {
             $data = $updateReservationRequest->validated();
-            $reservation = Reservation::findOrFail($data["reservationId"]);
-            $reservation->update([
-                "client_id" => $data["clientId"],
-                "service_id" => $data["serviceId"],
-                "date" => $data["date"],
-                "notes" => $data["notes"] ?? null
-            ]);
-            if ($data["clientPhonesId"]) {
-                $reservation->phones()->sync($data["clientPhonesId"]);
-            }
-            if ($data["clientEmailsId"]) {
-               $reservation->emails()->sync($data["clientEmailsId"]);
-            }
+            $this->reservationService->updateReservation($data);
             DB::commit();
             return response()->json(["message" => __("messages.success.updated")]);
         } catch (\Exception $e) {
@@ -104,7 +69,7 @@ class ReservationController extends Controller
         }
     }
     public function delete(Request $request){
-       $reservation = Reservation::find($request->reservationId);
+       $reservation = $this->reservationService->deleteReservation($request->reservationId);
        if(!$reservation){
          return response()->json(["message"=> __("messages.error.not_found")]);
        }
