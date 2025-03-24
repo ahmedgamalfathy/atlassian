@@ -104,6 +104,11 @@ class ForgotPasswordController extends Controller
             'password'=>['required','confirmed',Password::min(8)]
         ]);
         $user=User::findOrFail($request->userId);
+        if($user->expired_at < now()){
+            return response()->json([
+                "message"=>'Time of code is expired ,please resend code again!',
+            ],422);
+            }
         if(!$user){
             return response()->json([
                 'message'=>__('messages.error.not_found')
