@@ -56,10 +56,10 @@ class ForgotPasswordController extends Controller
                 "message"=>'Time of code is expired ,please resend code again!',
             ],422);
             }
-           $user->update([
-                'code'=>null,
-                'expired_at'=>null
-            ]);
+        //    $user->update([
+        //         'code'=>null,
+        //         'expired_at'=>null
+        //     ]);
             DB::commit();
             return response()->json([
                 'message'=>__('messages.success.created')
@@ -104,16 +104,16 @@ class ForgotPasswordController extends Controller
             'password'=>['required','confirmed',Password::min(8)]
         ]);
         $user=User::findOrFail($request->userId);
-        if($user->expired_at < now()){
-            return response()->json([
-                "message"=>'Time of code is expired ,please resend code again!',
-            ],422);
-            }
         if(!$user){
             return response()->json([
                 'message'=>__('messages.error.not_found')
             ]);
         }
+        if($user->expired_at < now()){
+            return response()->json([
+                "message"=>'Time of code is expired ,please resend code again!',
+            ],422);
+            }
         $user->update([
             'password'=>Hash::make($request->input('password')),
             'code'=>null,
