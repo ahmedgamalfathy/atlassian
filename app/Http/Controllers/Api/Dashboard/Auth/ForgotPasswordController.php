@@ -20,6 +20,11 @@ class ForgotPasswordController extends Controller
         DB::beginTransaction();
         try{
             $user =User::where("email", $request->email)->first();
+            if(!$user){
+                return response()->json([
+                    "message"=>__('messages.error.not_found')
+                ],404);
+            }
             $user->update([
                 "code"=>rand(1000,9999),
                 'expired_at' => now()->addMinutes(5),

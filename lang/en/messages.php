@@ -44,7 +44,7 @@ return [
     'reservationPhone'=> "reservationPhone"
       ],
     'error' => [
-        'not_found' => 'Post not found!',
+        'not_found' => 'record not found!',
         'unauthorized' => 'You are not authorized to perform this action.',
     ],
 ];
