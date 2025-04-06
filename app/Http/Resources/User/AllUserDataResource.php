@@ -2,10 +2,11 @@
 
 namespace App\Http\Resources\User;
 
-use App\Http\Resources\Role\RoleResource;
 use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\JsonResource;
+use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Storage;
+use App\Http\Resources\Role\RoleResource;
+use Illuminate\Http\Resources\Json\JsonResource;
 
 class AllUserDataResource extends JsonResource
 {
@@ -19,7 +20,8 @@ class AllUserDataResource extends JsonResource
 
 
         //dd($userData);
-
+        $userRoles = $this->getRoleNames();
+        $role = Role::findByName($userRoles[0]);
         return [
             __('messages.words.userId') => $this->id,
             __('messages.words.name') => $this->name??"",
@@ -29,7 +31,7 @@ class AllUserDataResource extends JsonResource
             __('messages.words.address') => $this->address??"",
             __('messages.words.status' )=> $this->status,
             __('messages.words.avatar') => $this->avatar?Storage::disk('public')->url($this->avatar):"",
-            __('messages.words.roleId') => RoleResource::collection($this->whenLoaded('roles'))[0]->id,
+            __('messages.words.roleId') => new RoleResource($role),
         ];
     }
 }
