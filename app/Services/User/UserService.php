@@ -95,7 +95,9 @@ class UserService{
         $user->status = UserStatus::from($userData['status'])->value;
 
         if($avatarPath){
-            Storage::disk('public')->delete($user->avatar);
+            if($user->avatar){
+                Storage::disk('public')->delete($user->avatar);
+            }
             $user->avatar = $avatarPath;
         }
 
