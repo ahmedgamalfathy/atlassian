@@ -38,7 +38,7 @@ class UpdateUserRequest extends FormRequest
                 Password::min(8),
             ],
             'roleId'=> 'required',
-            'avatar' => ["sometimes", "nullable","image", "mimes:jpeg,jpg,png,gif", "max:2048"],
+            'avatar' => ["sometimes", "nullable","image", "mimes:jpeg,png,jpg,gif,svg" ],
         ];
     }
 

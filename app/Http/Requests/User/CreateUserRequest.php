@@ -41,7 +41,7 @@ class CreateUserRequest extends FormRequest
                 'regex:/^.*(?=.{1,})(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[\d\x]).*$/'*/
             ],
             'roleId'=> ['required', 'numeric', 'exists:roles,id'],
-            'avatar' => [ "nullable","image", "mimes:jpeg,jpg,png,gif", "max:2048"],
+            'avatar' => [ "nullable","image", "mimes:jpeg,png,jpg,gif,svg" ],
         ];
     }
 
