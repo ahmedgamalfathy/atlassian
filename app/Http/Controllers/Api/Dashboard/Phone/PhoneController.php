@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\Api\Dashboard\Phone;
 
-use App\Http\Controllers\Controller;
-use App\Models\Clients\ClientPhone;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
+use App\Models\Clients\ClientPhone;
+use App\Http\Controllers\Controller;
 
 class PhoneController extends Controller
 {
@@ -46,7 +47,7 @@ class PhoneController extends Controller
         $data = $request->validate([
             "clientId" => "required|exists:clients,id",
             "clientPhoneId" => "required|exists:phones,id",
-            "phone" => "required|numeric",
+            "phone" => ["required","numeric", Rule::unique('phones','phone')->ignore($request->clientPhoneId)],
         ]);
         $phone = ClientPhone::find($data["clientPhoneId"]);
         $phone->client_id = $data["clientId"];

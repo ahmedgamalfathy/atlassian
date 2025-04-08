@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Api\Dashboard\Email;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use App\Models\Clients\ClientEmail;
+use App\Http\Controllers\Controller;
+
 class EmailController extends Controller
 {
     public function __construct()
@@ -19,14 +21,14 @@ class EmailController extends Controller
     }
  public function index(Request $request)
  {
-     $data = ClientEmail::all();
+     $data = ClientEmail::where('client_id',$request->clientId)->get();
      return response()->json(["data"=>$data]);
  }
   public function create(Request $request)
     {
         $data = $request->validate([
             "clientId" => "required|exists:clients,id",
-            "email" => "required|email",
+            "email" => "required|email|unique:emails,email",
         ]);
         $email = new ClientEmail();
         $email->client_id = $data["clientId"];
@@ -49,7 +51,12 @@ class EmailController extends Controller
     $data = $request->validate([
         "clientId" => "required|exists:clients,id",
         "clientEmailId"=>"required|exists:emails,id",
-        "email" => "required|email",
+        "email" => [
+            "required",
+            "email",
+            Rule::unique('emails', 'email')->ignore($request->clientEmailId)
+        ],
+
     ]);
     $email = ClientEmail::find($data['clientEmailId']);
     $email->client_id = $data['clientId'];

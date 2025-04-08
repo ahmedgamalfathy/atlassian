@@ -16,7 +16,7 @@ return new class extends Migration
     {//title, client_id
         Schema::create('addresses', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
+            $table->string('title')->unique();
             $table->foreignIdFor(Client::class)->constrained()->cascadeOnUpdate()->cascadeOnDelete();
             $this->CreatedUpdatedByRelationship($table);
             $table->timestamps();

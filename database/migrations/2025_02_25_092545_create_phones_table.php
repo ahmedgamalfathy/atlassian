@@ -19,7 +19,7 @@ return new class extends Migration
         Schema::create('phones', function (Blueprint $table) {
             $table->id();
             $this->CreatedUpdatedByRelationship($table);
-            $table->string('phone');
+            $table->string('phone')->unique();
             $table->foreignIdFor(Client::class)->constrained()->cascadeOnUpdate()->cascadeOnDelete();
             $table->timestamps();
         });
