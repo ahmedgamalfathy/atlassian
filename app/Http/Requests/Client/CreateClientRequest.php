@@ -30,8 +30,11 @@ class CreateClientRequest extends FormRequest
         return [
             "name" => ['required','string'],
             'phones' => ['required','array'],
+            'phones.*.phone'=>['required','unique:phones,phone'],
             'emails' => ['required','array'],
+            'emails.*.email'=>['required','unique:emails,email'],
             'addresses' => ['required','array'],
+            'addresses.*.title'=>['required','unique:addresses,title'],
             "description" => ['nullable','string'],
         ];
     }

@@ -17,7 +17,7 @@ class ClientService{
     public function allClients(){
 
         $clients = QueryBuilder::for(Client::class)
-        ->allowedFilters([
+        ->allowedFilters([ 
             // AllowedFilter::exact('clientId', 'id'), // Add a custom search filter
             // AllowedFilter::custom('search', new FilterClient()), // Add a custom search filter
         ])
@@ -59,7 +59,7 @@ class ClientService{
 
     }
 
-    public function editClient(string $clientId){
+    public function editClient(int $clientId){
             $client = Client::with(["emails" ,"phones" , "addresses"])->findOrFail($clientId);
             return $client;
     }
@@ -75,7 +75,12 @@ class ClientService{
         }
         if (isset($clientData['addresses'])) {
             foreach ($clientData['addresses'] as $address) {
-                $clientAddress = ClientAddress::findOrFail($address['clientAddressId']);
+                $clientAddress = ClientAddress::find($address['clientAddressId']);
+                if (!$clientAddress) {
+                    return response()->json([
+                        'message' => __('messages.error.not_found')
+                    ], 404);
+                }
                 if(!$clientAddress){
                     return response()->json([
                         'message' => __('messages.error.not_found')
