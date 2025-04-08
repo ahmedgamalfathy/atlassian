@@ -18,7 +18,7 @@ return [
     'description'=>"description",
     "username"=>"username",
     "roleId"=>"roleId",
-    'clientId'=>"client",
+    'clientId'=>"clientId",
     'addresses'=>"addresses",
     'emails'=>"emails",
     'phones'=>"phones",

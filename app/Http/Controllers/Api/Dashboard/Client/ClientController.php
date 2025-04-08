@@ -111,12 +111,7 @@ class ClientController extends Controller
 
         try {
             DB::beginTransaction();
-          $client = $this->clientService->deleteClient($request->clientId);
-            if(!$client){
-                return response()->json([
-                    'message'=>__('messages.error.not_found')
-                ],404);
-            }
+           $this->clientService->deleteClient($request->clientId);
             DB::commit();
             return response()->json([
                 'message' => __('messages.success.deleted')

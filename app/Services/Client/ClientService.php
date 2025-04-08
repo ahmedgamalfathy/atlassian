@@ -121,8 +121,9 @@ class ClientService{
 
     public function deleteClient(int $id){
 
-            $client = Client::find($id);
+            $client = Client::findOrFail($id);
             $client->delete();
+
 
     }
 
