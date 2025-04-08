@@ -119,11 +119,11 @@ class ClientService{
         return $client;
     }
 
-    public function deleteClient(string $clientId){
+    public function deleteClient(int $clientId){
 
             $client = Client::find($clientId);
             $client->delete();
-            
+
     }
 
 }
