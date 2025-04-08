@@ -111,7 +111,12 @@ class ClientController extends Controller
 
         try {
             DB::beginTransaction();
-            $this->clientService->deleteClient($request->clientId);
+          $client = $this->clientService->deleteClient($request->clientId);
+            if(!$client){
+                return response()->json([
+                    'message'=>__('messages.error.not_found')
+                ],404);
+            }
             DB::commit();
             return response()->json([
                 'message' => __('messages.success.deleted')
@@ -119,9 +124,9 @@ class ClientController extends Controller
 
         } catch (\Exception $e) {
             DB::rollBack();
-            // return response()->json([
-            //     'message'=>__('messages.error.not_found')
-            // ]);
+            return response()->json([
+                'message'=>__('messages.error.not_found')
+            ],404);
         }
 
 
