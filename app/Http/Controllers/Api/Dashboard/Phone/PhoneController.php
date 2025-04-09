@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use App\Models\Clients\ClientPhone;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\Client\ClientContact\ClientContactResource;
 
 class PhoneController extends Controller
 {
@@ -19,16 +20,19 @@ class PhoneController extends Controller
         $this->middleware('permission:update_phone', ['only' => ['update']]);
         $this->middleware('permission:delete_phone', ['only' => ['delete']]);
     }
-    public function index(){
-      $client = ClientPhone::all();
-      return response()->json(["data"=>$client]);
+    public function index(Request $request){
+      $clients = ClientPhone::where('client_id',$request->clientId )->get();
+      if(!$clients){
+        return response()->json(["message"=> __("messages.error.not_found")]);
+      }
+      return response()->json(["data"=>ClientContactResource::collection($clients)]);
     }
     public function edit(Request $request){
         $client = ClientPhone::find($request->clientPhoneId);
         if(!$client){
             return response()->json(["message"=> __("messages.error.not_found")],404);
         }
-        return response()->json($client);
+        return response()->json(new ClientContactResource( $client));
     }
     public function create(Request $request){
         $data = $request->validate([

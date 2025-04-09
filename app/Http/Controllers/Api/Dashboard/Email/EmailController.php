@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use App\Models\Clients\ClientEmail;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\Client\ClientContact\AllClientEmailResource;
 
 class EmailController extends Controller
 {
@@ -22,7 +23,10 @@ class EmailController extends Controller
  public function index(Request $request)
  {
      $data = ClientEmail::where('client_id',$request->clientId)->get();
-     return response()->json(["data"=>$data]);
+     if(!$data){
+        return response()->json(["message"=> __("messages.error.not_found")]);
+     }
+     return response()->json(["data"=> AllClientEmailResource::collection($data)]);
  }
   public function create(Request $request)
     {
@@ -44,7 +48,7 @@ class EmailController extends Controller
         if(!$email) {
             return response()->json(["message"=> __("messages.error.not_found")]);
         }
-        return response()->json($email);
+        return response()->json(new AllClientEmailResource ($email));
     }
   public function update(Request $request)
   {

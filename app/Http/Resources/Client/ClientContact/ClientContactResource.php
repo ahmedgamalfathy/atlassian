@@ -14,8 +14,8 @@ class ClientContactResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-//'clientId' 'name' 'addresses' 'emails' 'phones' 'description'
-// 'clientAddressId' 'address' 'clientEmailId' 'email' 'clientPhoneId'
+        //'clientId' 'name' 'addresses' 'emails' 'phones' 'description'
+        // 'clientAddressId' 'address' 'clientEmailId' 'email' 'clientPhoneId'
         return [
             __('messages.words.clientPhoneId') => $this->id,
             __('messages.words.phone') => $this->phone??""
