@@ -68,9 +68,9 @@ class ServiceController extends Controller
         try {
             // $service = Service::findOrFail( $request->get("serviceId"));
             $service=$this->moduleService->editService($request->get("serviceId"));
-            return response()->json([
+            return response()->json(
                 new ServiceEditResource($service)
-            ]);
+            );
         } catch (\Throwable $th) {
             return response()->json([
                 "message"=>__("messages.error.not_found"),

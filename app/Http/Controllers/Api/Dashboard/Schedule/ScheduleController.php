@@ -65,9 +65,9 @@ class ScheduleController extends Controller
     {
         try {
             $schedule=$this->scheduleService->editSchedule($request->scheduleId);
-            return response()->json([
+            return response()->json(
             new ScheduleEditResource($schedule)
-            ]);
+            );
         } catch (\Throwable $th) {
             return response()->json([
                 "message"=>__("messages.error.not_found"),

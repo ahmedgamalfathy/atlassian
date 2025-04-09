@@ -28,7 +28,7 @@ class PhoneController extends Controller
         if(!$client){
             return response()->json(["message"=> __("messages.error.not_found")],404);
         }
-        return response()->json([$client]);
+        return response()->json($client);
     }
     public function create(Request $request){
         $data = $request->validate([

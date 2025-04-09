@@ -78,9 +78,9 @@ class ClientController extends Controller
     {
 
         $client  =  $this->clientService->editClient($request->clientId);
-        return response()->json([
+        return response()->json(
             new ClientResource($client)//new ClientResource($client)
-        ]);
+       );
 
     }
 
