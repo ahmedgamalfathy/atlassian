@@ -66,7 +66,7 @@ class ScheduleController extends Controller
         try {
             $schedule=$this->scheduleService->editSchedule($request->scheduleId);
             return response()->json([
-              "data"=> new ScheduleEditResource($schedule)
+            new ScheduleEditResource($schedule)
             ]);
         } catch (\Throwable $th) {
             return response()->json([

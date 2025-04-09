@@ -36,9 +36,9 @@ class UserController extends Controller
     {
         $allUsers = $this->userService->allUsers();
 
-        return response()->json(
-            new AllUserCollection(PaginateCollection::paginate($allUsers, $request->pageSize?$request->pageSize:10))
-        , 200);
+        return response()->json([
+         "data"=>new AllUserCollection(PaginateCollection::paginate($allUsers, $request->pageSize?$request->pageSize:10))
+        ], 200);
 
     }
 

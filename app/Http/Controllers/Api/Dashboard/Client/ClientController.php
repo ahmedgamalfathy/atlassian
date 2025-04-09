@@ -76,11 +76,11 @@ class ClientController extends Controller
 
     public function edit(Request $request)
     {
-        
+
         $client  =  $this->clientService->editClient($request->clientId);
-
-        return new ClientResource($client);//new ClientResource($client)
-
+        return response()->json([
+            new ClientResource($client)//new ClientResource($client)
+        ]);
 
     }
 

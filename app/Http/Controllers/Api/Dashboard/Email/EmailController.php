@@ -44,7 +44,7 @@ class EmailController extends Controller
         if(!$email) {
             return response()->json(["message"=> __("messages.error.not_found")]);
         }
-        return response()->json(["data"=>$email]);
+        return response()->json([$email]);
     }
   public function update(Request $request)
   {

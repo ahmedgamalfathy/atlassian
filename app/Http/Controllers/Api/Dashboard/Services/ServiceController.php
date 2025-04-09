@@ -69,7 +69,7 @@ class ServiceController extends Controller
             // $service = Service::findOrFail( $request->get("serviceId"));
             $service=$this->moduleService->editService($request->get("serviceId"));
             return response()->json([
-                "data"=>new ServiceEditResource($service)
+                new ServiceEditResource($service)
             ]);
         } catch (\Throwable $th) {
             return response()->json([

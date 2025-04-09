@@ -54,7 +54,7 @@ class ReservationController extends Controller
       if(!$reservation){
         return response()->json(["message"=>__("messages.error.not_found")]);
       }
-      return response()->json(["data"=>new ClientReservationResource($reservation) ]);
+      return response()->json([ new ClientReservationResource($reservation) ]);
     }
     public function update(UpdateReservationRequest $updateReservationRequest){
         DB::beginTransaction();
