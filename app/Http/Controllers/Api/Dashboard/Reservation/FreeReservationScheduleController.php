@@ -85,7 +85,6 @@ class FreeReservationScheduleController extends Controller
             // Process dedicated schedule (e.g., specific date like '2024-12-23')
             $dedicatedDateSchedule = collect($schedule->times)->first(function ($item) use ($formattedDate) {
                 return $item['type'] === 'dedicated' && $item['date'] === $formattedDate;
-
             });
             if ($dedicatedDateSchedule) {
                 $availableTimes = $dedicatedDateSchedule['availableTimes'];

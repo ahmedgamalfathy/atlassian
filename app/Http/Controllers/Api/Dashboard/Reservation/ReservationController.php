@@ -69,11 +69,7 @@ class ReservationController extends Controller
         }
     }
     public function delete(Request $request){
-       $reservation = $this->reservationService->deleteReservation($request->reservationId);
-       if(!$reservation){
-         return response()->json(["message"=> __("messages.error.not_found")]);
-       }
-       $reservation->delete();
+        $this->reservationService->deleteReservation($request->reservationId);
        return response()->json(["message"=> __("messages.success.deleted")]);
     }
 }

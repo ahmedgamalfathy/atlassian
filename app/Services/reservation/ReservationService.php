@@ -56,6 +56,6 @@ public function updateReservation( array $data)
 public function deleteReservation(int $reservationId){
     $reservation = Reservation::find($reservationId);
     $reservation->delete();
-    return $reservation;
+    
 }
 }
