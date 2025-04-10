@@ -1,11 +1,13 @@
 <?php
 
+use App\Http\Controllers\Api\Dashboard\Widget\WidgetController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Models\Reservations\Reservation;
 use App\Http\Controllers\FrontPages\DynamicPageController;
 use App\Http\Controllers\Api\Dashboard\Auth\AuthController;
 use App\Http\Controllers\Api\Dashboard\Auth\ForgotPasswordController;
+use App\Http\Controllers\Api\Dashboard\Client\ClientAddressController;
 use App\Http\Controllers\Api\Dashboard\User\UserController;
 use App\Http\Controllers\Api\Dashboard\Email\EmailController;
 use App\Http\Controllers\Api\Dashboard\Phone\PhoneController;
@@ -18,6 +20,7 @@ use App\Http\Controllers\Api\Dashboard\Reservation\FreeReservationScheduleContro
 use App\Http\Controllers\Api\Website\AppointmentPageController;
 use App\Http\Controllers\Api\Website\ServicePageController;
 use App\Mail\ForgotPasswordSendCode;
+use App\Models\Widget\Widget;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,7 +38,7 @@ use App\Mail\ForgotPasswordSendCode;
 // });
 
 Route::prefix("v1/{lang}/admin")->group(function (){
-
+    Route::get('/widgets', [WidgetController::class,'widget']);
     Route::controller(AuthController::class)->group(function(){
          Route::post("login", "login");
          Route::post("logout", "logout");
@@ -90,6 +93,13 @@ Route::prefix("v1/{lang}/admin")->group(function (){
         Route::put("update", "update");
         Route::delete("delete", "delete");
     });
+    Route::controller(ClientAddressController::class)->prefix("/address")->group(function(){
+        Route::get("","index");
+        Route::post("create","create");
+        Route::get("edit","edit");
+        Route::put("update", "update");
+        Route::delete("delete", "delete");
+    });
     Route::controller(PhoneController::class)->prefix("/phones")->group(function(){
         Route::get("","index");
         Route::post("create","create");
@@ -104,6 +114,8 @@ Route::prefix("v1/{lang}/admin")->group(function (){
         Route::get('/free-schedules','index');
         Route::get('free-schedules/check-availability','checkAvailability');
     });
+
+
 
 });
 

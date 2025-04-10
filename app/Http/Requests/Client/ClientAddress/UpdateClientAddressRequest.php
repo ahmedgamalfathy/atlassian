@@ -25,15 +25,8 @@ class UpdateClientAddressRequest extends FormRequest
     {
         return [
             'clientAddressId' => 'required',
-            'address' => ['required'],
-            'province' => ['nullable'],
-            'cap' => ['nullable'],
-            'city' => ['nullable'],
-            'region' => ['nullable'],
-            'latitude' => ['nullable'],
-            'longitude' => ['nullable'],
-            'note' => ['nullable'],
-            'parameterValueId' => ['nullable'],
+            'title' => ['required'],
+            'clientId' => ['required','exists:clients,id'],
         ];
     }
 

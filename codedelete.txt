@@ -73,3 +73,34 @@ update reservation
     "appointmentTime": "30"
     }
  ]
+ //postman
+   "addresses": [
+            {
+                "clientAddressId":5,
+                "title": "عنوان الdعميل 3"
+            },
+            {
+                "clientAddressId":6,
+                "title": "عنوان الdعميل 4"
+            }
+        ],
+        "emails": [
+            {
+                "clientEmailId":5,
+                "email": "email3@edxample.com"
+            },
+            {
+                "clientEmailId":6,
+                "email": "email4@dexample.com"
+            }
+        ],
+        "phones": [
+            {
+                "clientPhoneId":5,
+                "phone": "1234536783"
+            },
+            {
+                "clientPhoneId": 6,
+                "phone": "9876534324"
+            }
+        ],

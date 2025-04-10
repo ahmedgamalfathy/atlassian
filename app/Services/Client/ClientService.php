@@ -17,7 +17,7 @@ class ClientService{
     public function allClients(){
 
         $clients = QueryBuilder::for(Client::class)
-        ->allowedFilters([ 
+        ->allowedFilters([
             // AllowedFilter::exact('clientId', 'id'), // Add a custom search filter
             // AllowedFilter::custom('search', new FilterClient()), // Add a custom search filter
         ])
@@ -73,53 +73,53 @@ class ClientService{
             ]);
             $client->save();
         }
-        if (isset($clientData['addresses'])) {
-            foreach ($clientData['addresses'] as $address) {
-                $clientAddress = ClientAddress::find($address['clientAddressId']);
-                if (!$clientAddress) {
-                    return response()->json([
-                        'message' => __('messages.error.not_found')
-                    ], 404);
-                }
-                if(!$clientAddress){
-                    return response()->json([
-                        'message' => __('messages.error.not_found')
-                    ], 404);
-                }
-                $clientAddress->update([
-                    "title"=>$address['title']
-                ]);
-                $clientAddress->save();
-            }
-        }
-        if(isset($clientData['emails'])){
-            foreach ($clientData['emails'] as $email) {
-                    $clientEmail = ClientEmail::findOrFail($email['clientEmailId']);
-                    if(!$clientEmail){
-                        return response()->json([
-                            'message' => __('messages.error.not_found')
-                        ], 404);
-                    }
-                    $clientEmail->update([
-                        "email"=>$email['email']
-                    ]);
-                    $clientEmail->save();
-                }
-        }
-        if(isset($clientData['phones'])){
-            foreach ($clientData['phones'] as $phone) {
-                $clientPhone = ClientPhone::findOrFail($phone['clientPhoneId']);
-                if(!$clientPhone){
-                    return response()->json([
-                        'message' => __('messages.error.not_found')
-                    ], 404);
-                }
-                $clientPhone->update([
-                    "phone"=>$phone['phone']
-                ]);
-                $clientPhone->save();
-            }
-        }
+        // if (isset($clientData['addresses'])) {
+        //     foreach ($clientData['addresses'] as $address) {
+        //         $clientAddress = ClientAddress::find($address['clientAddressId']);
+        //         if (!$clientAddress) {
+        //             return response()->json([
+        //                 'message' => __('messages.error.not_found')
+        //             ], 404);
+        //         }
+        //         if(!$clientAddress){
+        //             return response()->json([
+        //                 'message' => __('messages.error.not_found')
+        //             ], 404);
+        //         }
+        //         $clientAddress->update([
+        //             "title"=>$address['title']
+        //         ]);
+        //         $clientAddress->save();
+        //     }
+        // }
+        // if(isset($clientData['emails'])){
+        //     foreach ($clientData['emails'] as $email) {
+        //             $clientEmail = ClientEmail::findOrFail($email['clientEmailId']);
+        //             if(!$clientEmail){
+        //                 return response()->json([
+        //                     'message' => __('messages.error.not_found')
+        //                 ], 404);
+        //             }
+        //             $clientEmail->update([
+        //                 "email"=>$email['email']
+        //             ]);
+        //             $clientEmail->save();
+        //         }
+        // }
+        // if(isset($clientData['phones'])){
+        //     foreach ($clientData['phones'] as $phone) {
+        //         $clientPhone = ClientPhone::findOrFail($phone['clientPhoneId']);
+        //         if(!$clientPhone){
+        //             return response()->json([
+        //                 'message' => __('messages.error.not_found')
+        //             ], 404);
+        //         }
+        //         $clientPhone->update([
+        //             "phone"=>$phone['phone']
+        //         ]);
+        //         $clientPhone->save();
+        //     }
+        // }
 
         return $client;
     }

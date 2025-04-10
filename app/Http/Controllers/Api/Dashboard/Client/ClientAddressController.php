@@ -19,11 +19,11 @@ class ClientAddressController extends Controller
     public function __construct(ClientAddressService $clientAddressService)
     {
         $this->middleware('auth:api');
-        $this->middleware('permission:all_client_addresses', ['only' => ['index']]);
-        $this->middleware('permission:create_client_address', ['only' => ['create']]);
-        $this->middleware('permission:edit_client_address', ['only' => ['edit']]);
-        $this->middleware('permission:update_client_address', ['only' => ['update']]);
-        $this->middleware('permission:delete_client_address', ['only' => ['delete']]);
+        // $this->middleware('permission:all_client_addresses', ['only' => ['index']]);
+        // $this->middleware('permission:create_client_address', ['only' => ['create']]);
+        // $this->middleware('permission:edit_client_address', ['only' => ['edit']]);
+        // $this->middleware('permission:update_client_address', ['only' => ['update']]);
+        // $this->middleware('permission:delete_client_address', ['only' => ['delete']]);
         $this->clientAddressService = $clientAddressService;
     }
 
@@ -32,9 +32,9 @@ class ClientAddressController extends Controller
      */
     public function index(Request $request)
     {
-        $allClientAddreses = $this->clientAddressService->allAddresses($request->all());
+        $allClientAddreses = $this->clientAddressService->allClientAddress($request->all());
 
-        return AllClientAddressResource::collection($allClientAddreses);
+        return response()->json(["data"=>AllClientAddressResource::collection($allClientAddreses)]);
 
     }
 
@@ -49,7 +49,7 @@ class ClientAddressController extends Controller
             DB::beginTransaction();
 
             $data = $createClientAddressRequest->validated();
-            $clientAddress = $this->clientAddressService->createAddress($data);
+            $clientAddress = $this->clientAddressService->createClientAddress($data);
 
 
             DB::commit();
@@ -72,9 +72,15 @@ class ClientAddressController extends Controller
 
     public function edit(Request $request)
     {
-        $clientAddress  =  $this->clientAddressService->editAddress($request->clientAddressId);
-
-        return new ClientAddressResource($clientAddress);//new ClientAddressResource($clientAddress)
+        $clientAddress  =  $this->clientAddressService->editClientAddress($request->clientAddressId);
+        if(!$clientAddress){
+            return response()->json([
+                "message"=>__("messages.error.not_found"),
+            ]);
+        }
+        return response()->json([
+            new ClientAddressResource($clientAddress)
+        ]);
 
 
     }
@@ -87,14 +93,17 @@ class ClientAddressController extends Controller
 
         try {
             DB::beginTransaction();
-            $this->clientAddressService->updateAddress($updateClientAddressRequest->validated());
+            $this->clientAddressService->updateClientAddress($updateClientAddressRequest->validated());
             DB::commit();
             return response()->json([
                  'message' => __('messages.success.updated')
             ], 200);
         } catch (\Exception $e) {
             DB::rollBack();
-            throw $e;
+            return response()->json([
+                "message"=>__("messages.error.not_found"),
+            ]);
+
         }
 
 
@@ -108,7 +117,7 @@ class ClientAddressController extends Controller
 
         try {
             DB::beginTransaction();
-            $this->clientAddressService->deleteAddress($request->clientAddressId);
+            $this->clientAddressService->deleteClientAddress($request->clientAddressId);
             DB::commit();
             return response()->json([
                 'message' => __('messages.success.deleted')
