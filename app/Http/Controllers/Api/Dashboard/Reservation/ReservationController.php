@@ -69,10 +69,13 @@ class ReservationController extends Controller
         }
     }
     public function delete(Request $request){
+        DB::beginTransaction();
         try {
             $this->reservationService->deleteReservation($request->reservationId);
+            DB::commit();
             return response()->json(["message"=> __("messages.success.deleted")]);
         } catch (\Throwable $th) {
+            DB::rollBack();
             return response()->json([
                  response()->json(["message"=>__("messages.error.not_found")])
             ]);
