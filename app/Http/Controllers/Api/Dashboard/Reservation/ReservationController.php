@@ -69,7 +69,14 @@ class ReservationController extends Controller
         }
     }
     public function delete(Request $request){
-        $this->reservationService->deleteReservation($request->reservationId);
-       return response()->json(["message"=> __("messages.success.deleted")]);
+        try {
+            $this->reservationService->deleteReservation($request->reservationId);
+            return response()->json(["message"=> __("messages.success.deleted")]);
+        } catch (\Throwable $th) {
+            return response()->json([
+                 response()->json(["message"=>__("messages.error.not_found")])
+            ]);
+        }
+
     }
 }
