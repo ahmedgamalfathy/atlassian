@@ -25,7 +25,7 @@ class UpdateClientAddressRequest extends FormRequest
     {
         return [
             'clientAddressId' => 'required',
-            'title' => ['required'],
+            'address' => ['required'],
             'clientId' => ['required','exists:clients,id'],
         ];
     }

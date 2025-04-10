@@ -20,7 +20,7 @@ use Illuminate\Support\Facades\Request;
         {
             return ClientAddress::create([
                 'client_id' => $data['clientId'],
-                'title' => $data['title'],
+                'title' => $data['address'],
 
             ]);
         }
@@ -29,7 +29,7 @@ use Illuminate\Support\Facades\Request;
             $clientAddress = ClientAddress::find($data['clientAddressId']);
             $clientAddress->update([
                 'client_id' => $data['clientId'],
-                'title' => $data['title'],
+                'title' => $data['address'],
             ]);
             return $clientAddress;
         }

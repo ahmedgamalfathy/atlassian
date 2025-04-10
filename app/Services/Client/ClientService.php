@@ -34,7 +34,7 @@ class ClientService{
        if(isset($clientData['addresses'])){
           foreach ($clientData['addresses'] as $address) {
             ClientAddress::create([
-                "title"=>$address["title"],
+                "title"=>$address["address"],
                 "client_id"=>$client->id
                 ]);
           }
