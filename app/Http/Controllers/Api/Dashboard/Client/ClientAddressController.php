@@ -32,7 +32,12 @@ class ClientAddressController extends Controller
      */
     public function index(Request $request)
     {
-        $allClientAddreses = $this->clientAddressService->allClientAddress($request->all());
+        $allClientAddreses = $this->clientAddressService->allClientAddress($request->get('clientId'));
+        if(!$allClientAddreses){
+            return response()->json([
+                "message"=>__("messages.error.not_found"),
+            ]);
+        }
 
         return response()->json(["data"=>AllClientAddressResource::collection($allClientAddreses)]);
 
