@@ -17,7 +17,7 @@ class ClientService{
     public function allClients(){
 
         $clients = QueryBuilder::for(Client::class)
-        ->allowedFilters([
+        ->allowedFilters(['name'
             // AllowedFilter::exact('clientId', 'id'), // Add a custom search filter
             // AllowedFilter::custom('search', new FilterClient()), // Add a custom search filter
         ])
