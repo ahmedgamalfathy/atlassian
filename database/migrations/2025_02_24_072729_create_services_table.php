@@ -26,7 +26,7 @@ return new class extends Migration
             // $table->string('image')->nullable();
             $table->string( 'title');
             $table->string('color');
-            $table->text('description');
+            $table->text('description')->nullable();
             $this->CreatedUpdatedByRelationship($table);
             $table->timestamps();
         });
