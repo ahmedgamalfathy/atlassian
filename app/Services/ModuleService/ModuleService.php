@@ -20,7 +20,7 @@ public function createService(array $data)
         "title"=>$data["title"],
         "color"=>$data['color'],
         "is_active"=>ServiceActive::from($data['isActive'])->value,
-        "description"=>$data["description"],
+        "description"=>$data["description"] ??null,
     ]);
     return $service;
 }
