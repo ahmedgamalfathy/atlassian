@@ -31,7 +31,7 @@ class CreateUserRequest extends FormRequest
             'name' => 'required',
             'username'=> ['required','unique:users,username'],
             'email'=> ['required','email','unique:users,email'],
-            'phone' =>'required,',
+            'phone' =>'required',
             'address' =>'required',
             'status' =>['required', new Enum(UserStatus::class)],
             'password'=>[
@@ -40,13 +40,14 @@ class CreateUserRequest extends FormRequest
                 /*'min:8',
                 'regex:/^.*(?=.{1,})(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[\d\x]).*$/'*/
             ],
-            'roleId'=> ['required', 'numeric', 'exists:roles,id'],
+            'roleId'=> ['required', 'numeric'],
             'avatar' => [ "nullable","image", "mimes:jpeg,png,jpg,gif,svg" ],
         ];
     }
 
     public function failedValidation(Validator $validator)
     {
+    dd('sdsd');
         throw new HttpResponseException(response()->json([
             'message' => $validator->errors()
         ], 401));
