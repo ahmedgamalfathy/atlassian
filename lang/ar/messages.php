@@ -41,6 +41,7 @@ return [
         'reservationEmail'=>"بريد الإلكتروني الحجز",
         'reservationPhoneId'=>"معرف هاتف الحجز",
         'reservationPhone'=> "هاتف الحجز",
+        'servicesNames'=>"اسماء الخدمات",
     ],
     'error' => [
         'not_found' => 'المنشور غير موجود!',

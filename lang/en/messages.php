@@ -41,7 +41,8 @@ return [
     'reservationEmailId'=>"reservationEmailId",
     'reservationEmail'=>"reservationEmail",
     'reservationPhoneId'=>"reservationPhoneId",
-    'reservationPhone'=> "reservationPhone"
+    'reservationPhone'=> "reservationPhone",
+    'servicesNames'=>"servicesNames "
       ],
     'error' => [
         'not_found' => 'record not found!',
