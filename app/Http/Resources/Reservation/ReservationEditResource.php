@@ -23,6 +23,8 @@ class ReservationEditResource extends JsonResource
             __("messages.words.notes")=>$this->notes??null,
             __("messages.words.serviceId")=>$this->service_id,
             __("messages.words.clientId")=>new ClientReservationResource($this->client_id),
+            "dateTo"=> $this->date_to??"",
+            "title" => $this->title??""
           ];
     }
 }

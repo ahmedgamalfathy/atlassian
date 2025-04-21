@@ -27,6 +27,7 @@ class CreateScheduleRequest extends FormRequest
         'title' => 'required|string',
         'times' => 'required|array',
         'servicesId' => 'required|array',
+        "description"=>'nullable'
         ];
     }
     public function failedValidation(Validator $validator)

@@ -110,7 +110,7 @@ class ScheduleController extends Controller
         } catch (\Throwable $th) {
             return response()->json([
                 "message"=>__("messages.error.not_found"),
-            ]);
+            ],404);
         }
 
     }

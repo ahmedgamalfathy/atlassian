@@ -20,6 +20,8 @@ class ClientReservationResource extends JsonResource
             __("messages.words.ReservationId")=>$this->id,
             __("messages.words.date")=>$this->date,
             __("messages.words.notes")=>$this->notes??null,
+                    "dateTo"=> $this->date_to??"",
+                    "title" => $this->title??"",
             __("messages.words.serviceId")=>$this->service_id,
             __("messages.words.reservationEmails")=>$this->emails? ClientReservationEmail::collection($this->emails):null,
             __("messages.words.reservationPhones")=>$this->phones?ClientReservationPhone::collection($this->phones):null

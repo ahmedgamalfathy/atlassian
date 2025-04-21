@@ -24,10 +24,12 @@ class CreateReservationRequest extends FormRequest
     public function rules(): array
     {//client_id ,service_id, date,notes
         return [
+            "title"=>['nullable'],
            "clientId"=>['required','exists:clients,id'],
            "serviceId"=>["required",'exists:services,id'],
            "notes"=>["nullable","string"],
            "date"=>["required"],
+           "dateTo"=>["nullable"],
            "clientPhonesId"=>["required","array"],
            "clientEmailsId"=>["required","array"]
         ];

@@ -45,9 +45,9 @@ class SelectService
             'users' => ['getAllUsers', UserSelectService::class],
             'roles' => ['getAllRoles', RoleSelectService::class],
             'clients' => ['getClients', ClientSelectService::class],
-            'services' => ['getServices',ServiceSelectService::class],
             'clientEmails' => ['getClientEmails', ClientSelectService::class],
             'clientPhones' => ['getClientPhones', ClientSelectService::class],
+            'services' => ['getServices',ServiceSelectService::class],
             'permissions' => ['getAllPermissions', PermissionSelectService::class],
             //'parameters' => ['getAllParameters', ParameterSelectService::class]
         ];

@@ -16,7 +16,8 @@ class ScheduleService{
     public function createSchedule(array $data){
         $schedule= Schedule::create([
             "title" =>$data['title'],
-            "times" =>$data['times']
+            "times" =>$data['times'],
+            "description"=>$data['description']??null
         ]);
         $servicesId = $data['servicesId'];
         foreach($servicesId as $serviceId)
@@ -41,7 +42,8 @@ class ScheduleService{
         $schedule= Schedule::findOrFail($data['scheduleId']);
         $schedule->update([
             "title"=>$data['title'],
-            "times"=>$data['times']
+            "times"=>$data['times'],
+            "description"=>$data['description']??null
         ]);
         $servicesId = $data['servicesId'];
         foreach($servicesId as $serviceId)

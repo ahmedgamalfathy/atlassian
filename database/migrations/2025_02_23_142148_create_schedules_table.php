@@ -19,6 +19,7 @@ return new class extends Migration
             $table->id();
             $table->string('title')->nullable();
             $table->longText('times');
+            $table->text('description')->nullable();
             $this->CreatedUpdatedByRelationship($table);
             $table->timestamps();
         });

@@ -18,7 +18,8 @@ class ScheduleResource extends JsonResource
             __('messages.words.scheduleId')=> $this->id,
             __('messages.words.title')=> $this->title,
             __('messages.words.times') => $this->times,
-            __( 'messages.words.servicesNames')=>$this->services->pluck('title')->toArray()
+            __( 'messages.words.servicesNames')=>$this->services->pluck('title')->toArray(),
+            "description"=>$this->description
         ];
     }
 }

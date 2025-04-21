@@ -72,6 +72,7 @@ class FreeReservationScheduleController extends Controller
 
                     while ($currentTime->lt($endDateTime)) {
                         $slots[] = $currentTime->format('H:i');
+
                         $currentTime->addMinutes($appointmentTime + $restEachTime);
                     }
                 }
@@ -124,7 +125,7 @@ class FreeReservationScheduleController extends Controller
                 ->toArray();
 
             // Filter out reserved times
-            $freeTimes = array_values(array_map(fn($time) => ['time' => $time],
+            $freeTimes = array_values(array_map(fn($time) => ['time' => $time, 'appointmentTime' =>$appointmentTime ],
                 array_filter($freeTimes, fn($slot) => !in_array($slot, $reservedTimes))
             ));
 
@@ -155,6 +156,7 @@ class FreeReservationScheduleController extends Controller
             return $item['day'] === $dayOfWeek || $item['date'] === $formattedDate;
         });
 
+
         if (!$daySchedule || empty($daySchedule['availableTimes'])) {
             return response()->json(['available' => false, 'message' => 'No schedule available for this day']);
         }
@@ -172,6 +174,7 @@ class FreeReservationScheduleController extends Controller
 
             while ($currentTime->lt($endDateTime)) {
                 $slotTime = $currentTime->format('H:i');
+
                 $slots[] = $slotTime;
                 $currentTime->addMinutes($appointmentTime + $restEachTime);
             }

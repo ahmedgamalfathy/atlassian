@@ -23,10 +23,12 @@ public function editReservation (int $reservationId)
 public function createReservation(array $data)
 {
     $reservation= Reservation::create([
+        'title'=>$data['title'] ?? null,
+        'date_to'=>$data["dateTo"]??null,
         "client_id"=>$data["clientId"],
         "service_id"=>$data["serviceId"],
         "date"=>$data["date"],
-        "notes"=> $data["notes"]??null
+        "notes"=> $data["notes"] ??null
     ]);
     if($data["clientPhonesId"]){
         $reservation->phones()->attach($data["clientPhonesId"]);
@@ -40,6 +42,8 @@ public function updateReservation( array $data)
 {
     $reservation = Reservation::findOrFail($data["reservationId"]);
     $reservation->update([
+        'title'=>$data['title'] ?? null,
+        'date_to'=>$data["dateTo"] ?? null,
         "client_id" => $data["clientId"],
         "service_id" => $data["serviceId"],
         "date" => $data["date"],

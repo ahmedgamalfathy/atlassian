@@ -17,6 +17,8 @@ return new class extends Migration
     {//client_id ,service_id ,date, notes
         Schema::create('reservations', function (Blueprint $table) {
             $table->id();
+            $table->string('title')->nullable();
+            $table->timestamp('date_to')->nullable();
             $table->foreignIdFor(Client::class)->constrained()->cascadeOnUpdate()->cascadeOnDelete();
             $table->foreignIdFor(Service::class)->constrained()->cascadeOnUpdate()->cascadeOnDelete();
             $table->timestamp('date');
@@ -24,7 +26,7 @@ return new class extends Migration
             $this->CreatedUpdatedByRelationship($table);
             $table->timestamps();
         });
-        
+
     }
 
     /**
