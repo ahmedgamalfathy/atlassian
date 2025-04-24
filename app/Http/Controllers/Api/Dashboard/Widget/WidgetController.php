@@ -19,7 +19,9 @@ class WidgetController extends Controller
         $monthlyReservations = Reservation::select(
             DB::raw('COUNT(*) as totalReservations, DATE_FORMAT(date, "%m-%Y") as month')
         )
-        ->whereBetween('date', [Carbon::today()->subMonths(6)->startOfMonth(), Carbon::today()->endOfDay()])
+        // ->whereBetween('date', [Carbon::today()->subMonths(6)->startOfMonth(), Carbon::today()->endOfDay()])
+        ->where('date', '>=', Carbon::now()->subMonths(6)->startOfMonth()) // بداية آخر سبعة أشهر
+        ->where('date', '<=', Carbon::now()->endOfMonth()) 
         ->groupBy('month')
         ->orderBy('month', 'asc')
         ->get();
