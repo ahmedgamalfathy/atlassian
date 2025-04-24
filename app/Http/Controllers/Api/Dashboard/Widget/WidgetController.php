@@ -19,7 +19,7 @@ class WidgetController extends Controller
         $monthlyReservations = Reservation::select(
             DB::raw('COUNT(*) as totalReservations, DATE_FORMAT(date, "%m-%Y") as month')
         )
-        ->where('date', '>=', Carbon::today()->subMonths(6))
+        ->where('date', '>=', Carbon::today()->subMonths(6)->startOfMonth())
         ->groupBy('month')
         ->orderBy('month')
         ->get();
