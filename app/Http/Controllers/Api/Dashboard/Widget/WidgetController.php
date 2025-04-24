@@ -21,7 +21,7 @@ class WidgetController extends Controller
         )
         ->where('date', '>=', Carbon::today()->subMonths(6)->startOfMonth())
         ->groupBy('month')
-        ->orderBy('month')
+        ->orderBy('month', 'asc')
         ->get();
 
         return $monthlyReservations;
