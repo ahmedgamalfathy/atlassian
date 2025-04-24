@@ -11,6 +11,10 @@ use App\Models\Reservations\Reservation;
 
 class WidgetController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:api');
+    }
     public function yearOverview(){
         $monthlyReservations = Reservation::select(
             DB::raw('COUNT(*) as totalReservations, DATE_FORMAT(date, "%m-%Y") as month')
