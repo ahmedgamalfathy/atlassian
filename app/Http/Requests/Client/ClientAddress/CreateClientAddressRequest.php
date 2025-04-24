@@ -25,7 +25,7 @@ class CreateClientAddressRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'address' => ['required','unique:addresses,title'],
+            'address' => ['required'],
             'clientId' => ['required','exists:clients,id']
         ];
     }
