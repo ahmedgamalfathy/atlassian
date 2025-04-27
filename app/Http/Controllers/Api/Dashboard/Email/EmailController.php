@@ -32,7 +32,7 @@ class EmailController extends Controller
     {
         $data = $request->validate([
             "clientId" => "required|exists:clients,id",
-            "email" => "required|email|unique:emails,email",
+            "email" => "required|email",
         ]);
         $email = new ClientEmail();
         $email->client_id = $data["clientId"];

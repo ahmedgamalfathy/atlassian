@@ -37,7 +37,7 @@ class PhoneController extends Controller
     public function create(Request $request){
         $data = $request->validate([
             "clientId" => "required|exists:clients,id",
-            "phone" => "required|numeric|unique:phones,phone",
+            "phone" => "required|numeric",
         ]);
         $phone = new ClientPhone();
         $phone->client_id = $data["clientId"];
@@ -51,7 +51,7 @@ class PhoneController extends Controller
         $data = $request->validate([
             "clientId" => "required|exists:clients,id",
             "clientPhoneId" => "required|exists:phones,id",
-            "phone" => ["required","numeric", Rule::unique('phones','phone')->ignore($request->clientPhoneId)],
+            "phone" => ["required","numeric"],
         ]);
         $phone = ClientPhone::find($data["clientPhoneId"]);
         $phone->client_id = $data["clientId"];

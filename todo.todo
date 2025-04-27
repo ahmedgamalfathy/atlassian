@@ -1,19 +1,45 @@
-reservation:
+reservation test-dashboard:
+    responsive:
+        ✘ clients: @cancelled(25-04-27 14:02)
+        ✘ services search@cancelled(25-04-27 14:04)
+        ✘ times @cancelled(25-04-27 14:05)
+        ✘ user @cancelled(25-04-27 14:06)
     Users:
-        ☐ allUsers:
+        ✘ allUsers: @cancelled(25-04-27 13:36)
           ✘ عند عدم اضافة صورة  يتم تداخل اليوزر نيم مع الاسم @cancelled(25-04-27 12:14)
           ✘ الفلترة بحالةالمستخدم نشط ام لا يتم اقتطاع نص من الكلمة @cancelled(25-04-27 12:14)
         ✔ create @done(25-04-27 12:20)
         ✔ update @done(25-04-27 12:14)
         ✔ delete @done(25-04-27 12:14)
-          ☐ required fields('name','username','email', 'password','role')
+        ✔ required fields('name','username','email', 'password','role') @done(25-04-27 13:36)
 
     clients:
-         ☐ allClients:
-            ☐ create
-            ☐ update
-            ☐ delete
-            ✔ required fields('name','phones','address') @done(25-04-27 12:29)
+        ✔ allClients: @done(25-04-27 12:53)
+        ✘ create @cancelled(25-04-27 12:53)
+              ✘ الايميل مطلوب @cancelled(25-04-27 12:53)
+              ✘ رقم الموبيل unique @cancelled(25-04-27 13:22)
+              ✘ الايميل  unique @cancelled(25-04-27 13:22)
+        ✔ update @done(25-04-27 13:33)
+        ✔ delete @done(25-04-27 13:33)
+         ✘ required fields('name','phones','address','email=>required') @cancelled(25-04-27 12:48)
+
+    services:
+        ✔ allservices @done(25-04-27 13:46)
+        ✔ create @done(25-04-27 13:46)
+        ✔ update @done(25-04-27 13:47)
+        ✔ delete @done(25-04-27 13:48)
+        ✔ required fields('name') @done(25-04-27 13:48)
+    times:
+            ✘ allTimes @cancelled(25-04-27 15:23)
+              ✘ عند اضافة وقت للخدمة  اكثر من مره بيملى الصفحة @cancelled(25-04-27 15:23)
+            ✔ create @done(25-04-27 15:21)
+            ✘ update @cancelled(25-04-27 15:05)
+                ✘ عند اضافة وقتddectated بيحصل مشكلة عن اضافة وقت@cancelled(25-04-27 14:59)
+                ✘  عند اضافة الوقت Both date and time are required for dedicated time slots @cancelled(25-04-27 15:02)
+                ✘ عند اضافة وقت ثابت اخر اثناء التحديث بيحذف الوقت القديم @cancelled(25-04-27 15:15)
+            ✔ delete @done(25-04-27 15:24)
+            ☐ required fields('name')
+
 
 
 
