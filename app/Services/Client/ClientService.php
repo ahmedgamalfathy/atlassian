@@ -39,7 +39,8 @@ class ClientService{
                 ]);
           }
         }
-        if(isset($clientData["emails"])){
+        $count = $clientData['emails'] ? count($clientData['emails']) : 0;
+        if($count>0){
             foreach ($clientData["emails"] as $email) {
             ClientEmail::create([
             "email"=>$email['email'],
