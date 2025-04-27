@@ -1,6 +1,21 @@
-todo:
-    ✔ create constructor api @done(25-03-10 12:10)
-    ☐ create resource to models
-    ☐ assign filter to models
-doing:
+reservation:
+    Users:
+        ☐ allUsers:
+          ✘ عند عدم اضافة صورة  يتم تداخل اليوزر نيم مع الاسم @cancelled(25-04-27 12:14)
+          ✘ الفلترة بحالةالمستخدم نشط ام لا يتم اقتطاع نص من الكلمة @cancelled(25-04-27 12:14)
+        ✔ create @done(25-04-27 12:20)
+        ✔ update @done(25-04-27 12:14)
+        ✔ delete @done(25-04-27 12:14)
+          ☐ required fields('name','username','email', 'password','role')
+
+    clients:
+         ☐ allClients:
+            ☐ create
+            ☐ update
+            ☐ delete
+            ✔ required fields('name','phones','address') @done(25-04-27 12:29)
+
+
+
+
 
