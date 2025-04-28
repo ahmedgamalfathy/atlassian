@@ -38,7 +38,7 @@ reservation test-dashboard:
                 ✘  عند اضافة الوقت Both date and time are required for dedicated time slots @cancelled(25-04-27 15:02)
                 ✘ عند اضافة وقت ثابت اخر اثناء التحديث بيحذف الوقت القديم @cancelled(25-04-27 15:15)
             ✔ delete @done(25-04-27 15:24)
-            ☐ required fields('name')
+            ✔ required fields('name') @done(25-04-27 16:42)
 
 
 

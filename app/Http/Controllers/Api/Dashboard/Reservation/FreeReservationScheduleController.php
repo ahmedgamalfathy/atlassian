@@ -148,7 +148,9 @@ class FreeReservationScheduleController extends Controller
 
         $service = Service::findOrFail($servicId);
         $schedule = $service->schedule;
-
+        if (!$schedule) {
+            return response()->json(['available' => false, 'message' => 'No schedule found for this service']);
+        }
         $dayOfWeek = strtolower($date->format('l'));
         $formattedDate = $date->toDateString();
 
