@@ -36,6 +36,9 @@ class FreeReservationScheduleController extends Controller
         }
 
         $schedule = $serviceReservationSchedule->schedule;
+        if (!$schedule) {
+            return response()->json(['error' => 'No schedule found for the service'], 404);
+        }
         $result = [];
 
         // Iterate through each day in the date range
