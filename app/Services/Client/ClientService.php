@@ -31,7 +31,8 @@ class ClientService{
             "name"=> $clientData["name"],
             "description"=> $clientData["description"]?? null,
         ]);
-       if(isset($clientData['addresses'])){
+        $countAddresses = $clientData['addresses'] ? count($clientData['addresses']) : 0;
+       if($countAddresses>0){
           foreach ($clientData['addresses'] as $address) {
             ClientAddress::create([
                 "title"=>$address["address"],
@@ -48,7 +49,8 @@ class ClientService{
             ]);
            }
         }
-        if(isset($clientData["phones"])){
+        $countPhones = $clientData['phones'] ? count($clientData['phones']) : 0;
+        if( $countPhones>0){
             foreach ($clientData["phones"] as $phone) {
                 ClientPhone::create([
                     "phone"=>$phone['phone'],
