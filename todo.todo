@@ -1,4 +1,4 @@
-reservation test-dashboard:
+reservation test-dashboard(v1):
     responsive:
         ✘ clients: @cancelled(25-04-27 14:02)
         ✘ services search@cancelled(25-04-27 14:04)
@@ -39,6 +39,15 @@ reservation test-dashboard:
                 ✘ عند اضافة وقت ثابت اخر اثناء التحديث بيحذف الوقت القديم @cancelled(25-04-27 15:15)
             ✔ delete @done(25-04-27 15:24)
             ✔ required fields('name') @done(25-04-27 16:42)
+
+       ..................................................................
+reservation test-dashboard(v2):
+        ✔ allTimes @done(25-04-27 16:42)
+        ✔ create @done(25-04-27 16:42)
+        ✔ update @done(25-04-27 16:42)
+        ✔ delete @done(25-04-27 16:42)
+        ✔ required fields('name') @done(25-04-27 16:42)
+
 
 
 

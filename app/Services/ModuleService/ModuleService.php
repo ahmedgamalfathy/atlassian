@@ -4,12 +4,15 @@ namespace App\Services\ModuleService;
 use App\Models\Services\Service;
 use App\Enums\Services\ServiceActive;
 use Spatie\QueryBuilder\QueryBuilder;
+use Spatie\QueryBuilder\AllowedFilter;
+
 class ModuleService{
 
 public function allService()
 {
         $services = QueryBuilder::for(Service::class)
-        ->allowedFilters(["title","color"])
+        ->allowedFilters(["title","color"],
+        AllowedFilter::exact('isActive', 'is_active'))
         ->get();
         return $services;
 }
