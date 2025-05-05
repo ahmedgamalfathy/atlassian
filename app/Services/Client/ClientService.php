@@ -31,35 +31,44 @@ class ClientService{
             "name"=> $clientData["name"],
             "description"=> $clientData["description"]?? null,
         ]);
-        $countAddresses = $clientData['addresses'] ? count($clientData['addresses']) : 0;
-       if($countAddresses>0){
-          foreach ($clientData['addresses'] as $address) {
-            ClientAddress::create([
-                "title"=>$address["address"],
-                "client_id"=>$client->id
-                ]);
-          }
-        }
-        $count = $clientData['emails'] ? count($clientData['emails']) : 0;
-        if($count>0){
-            foreach ($clientData["emails"] as $email) {
-            ClientEmail::create([
-            "email"=>$email['email'],
-            "client_id"=>$client->id
-            ]);
-           }
-        }
-        $countPhones = $clientData['phones'] ? count($clientData['phones']) : 0;
-        if( $countPhones>0){
-            foreach ($clientData["phones"] as $phone) {
-                ClientPhone::create([
-                    "phone"=>$phone['phone'],
-                    "client_id"=>$client->id
-                ]);
+
+        // Handle addresses if they exist
+        if(isset($clientData['addresses']) && is_array($clientData['addresses'])) {
+            foreach ($clientData['addresses'] as $address) {
+                if(isset($address['address'])) {
+                    ClientAddress::create([
+                        "title"=>$address["address"],
+                        "client_id"=>$client->id
+                    ]);
+                }
             }
         }
-        return $client;
 
+        // Handle emails if they exist
+        if(isset($clientData['emails']) && is_array($clientData['emails'])) {
+            foreach ($clientData["emails"] as $email) {
+                if(isset($email['email'])) {
+                    ClientEmail::create([
+                        "email"=>$email['email'],
+                        "client_id"=>$client->id
+                    ]);
+                }
+            }
+        }
+
+        // Handle phones if they exist
+        if(isset($clientData['phones']) && is_array($clientData['phones'])) {
+            foreach ($clientData["phones"] as $phone) {
+                if(isset($phone['phone'])) {
+                    ClientPhone::create([
+                        "phone"=>$phone['phone'],
+                        "client_id"=>$client->id
+                    ]);
+                }
+            }
+        }
+
+        return $client;
     }
 
     public function editClient(int $clientId){
