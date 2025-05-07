@@ -1,26 +1,28 @@
 <?php
 
-use App\Http\Controllers\Api\Dashboard\Widget\WidgetController;
 use Illuminate\Http\Request;
+use App\Models\Widget\Widget;
+use App\Mail\ForgotPasswordSendCode;
 use Illuminate\Support\Facades\Route;
 use App\Models\Reservations\Reservation;
 use App\Http\Controllers\FrontPages\DynamicPageController;
 use App\Http\Controllers\Api\Dashboard\Auth\AuthController;
-use App\Http\Controllers\Api\Dashboard\Auth\ForgotPasswordController;
-use App\Http\Controllers\Api\Dashboard\Client\ClientAddressController;
 use App\Http\Controllers\Api\Dashboard\User\UserController;
+use App\Http\Controllers\Api\Website\ServicePageController;
 use App\Http\Controllers\Api\Dashboard\Email\EmailController;
 use App\Http\Controllers\Api\Dashboard\Phone\PhoneController;
 use App\Http\Controllers\Api\Dashboard\Client\ClientController;
 use App\Http\Controllers\Api\Dashboard\Select\SelectController;
+use App\Http\Controllers\Api\Dashboard\Widget\WidgetController;
+use App\Http\Controllers\Api\Website\AppointmentPageController;
 use App\Http\Controllers\Api\Dashboard\Services\ServiceController;
 use App\Http\Controllers\Api\Dashboard\Schedule\ScheduleController;
+use App\Http\Controllers\Api\Dashboard\Auth\ForgotPasswordController;
+use App\Http\Controllers\Api\Dashboard\Client\ClientAddressController;
 use App\Http\Controllers\Api\Dashboard\Reservation\ReservationController;
+use App\Http\Controllers\Api\Website\FreeReservationScheduleWebsiteController;
 use App\Http\Controllers\Api\Dashboard\Reservation\FreeReservationScheduleController;
-use App\Http\Controllers\Api\Website\AppointmentPageController;
-use App\Http\Controllers\Api\Website\ServicePageController;
-use App\Mail\ForgotPasswordSendCode;
-use App\Models\Widget\Widget;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -127,6 +129,9 @@ Route::prefix("v1/{lang}/website")->group(function(){
         Route::get('','index');
         Route::get('edit','edit');
     });
-
+    Route::controller(FreeReservationScheduleWebsiteController::class)->group(function(){
+        Route::get('/free-schedules','index');
+        Route::get('free-schedules/check-availability','checkAvailability');
+    });
 });
 
