@@ -32,7 +32,7 @@ class ClientService{
             "description"=> $clientData["description"]?? null,
         ]);
 
-        // Handle addresses if they exist
+
         if(isset($clientData['addresses']) && is_array($clientData['addresses'])) {
             foreach ($clientData['addresses'] as $address) {
                 if(isset($address['address'])) {
@@ -44,7 +44,7 @@ class ClientService{
             }
         }
 
-        // Handle emails if they exist
+        // Handle emails if they exis
         if(isset($clientData['emails']) && is_array($clientData['emails'])) {
             foreach ($clientData["emails"] as $email) {
                 if(isset($email['email'])) {

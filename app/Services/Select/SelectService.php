@@ -4,6 +4,7 @@
 namespace App\Services\Select;
 
 use App\Services\Select\Company\BranchSelectService;
+use App\Services\Select\ServiceWebsiteSelectService;
 use App\Services\Select\Company\CompanySelectService;
 use App\Services\Select\Company\CustomerSelectService;
 use App\Services\Select\Parameter\ParameterSelectService;
@@ -49,6 +50,7 @@ class SelectService
             'clientPhones' => ['getClientPhones', ClientSelectService::class],
             'services' => ['getServices',ServiceSelectService::class],
             'permissions' => ['getAllPermissions', PermissionSelectService::class],
+            'servicesWebsite' => ['getWebsiteServices',ServiceWebsiteSelectService::class],
             //'parameters' => ['getAllParameters', ParameterSelectService::class]
         ];
 
