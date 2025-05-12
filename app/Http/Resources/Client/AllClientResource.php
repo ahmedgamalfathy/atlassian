@@ -19,6 +19,8 @@ class AllClientResource extends JsonResource
         return [
           __("messages.words.clientId")=>$this->id,
           __("messages.words.name") => $this->name,
+          "email" => $this->emails->first()->email??"",
+          "phone" => $this->phones->first()->phone??"",
           __("messages.words.description") => $this->description??null,
           __('messages.words.addresses') => AllClientAddressResource::collection($this->whenLoaded('addresses')),
         ];

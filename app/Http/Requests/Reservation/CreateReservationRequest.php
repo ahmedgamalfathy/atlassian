@@ -31,7 +31,7 @@ class CreateReservationRequest extends FormRequest
            "date"=>["required"],
            "dateTo"=>["nullable"],
            "clientPhonesId"=>["required","array"],
-           "clientEmailsId"=>["required","array"]
+           "clientEmailsId"=>["nullable","array"]
         ];
     }
     public function failedValidation(Validator $validator)

@@ -33,7 +33,7 @@ public function createReservation(array $data)
     if($data["clientPhonesId"]){
         $reservation->phones()->attach($data["clientPhonesId"]);
     }
-    if($data["clientEmailsId"]){
+    if(!empty($data["clientEmailsId"])){
         $reservation->emails()->attach($data["clientEmailsId"]);
     }
     return $reservation;
