@@ -202,4 +202,6 @@ class FreeReservationScheduleController extends Controller
             // 'available_slots' => array_diff($slots, $reservedTimes), // Return available slots
         ]);
     }
+
+
 }

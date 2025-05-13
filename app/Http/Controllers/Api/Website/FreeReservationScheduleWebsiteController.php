@@ -199,4 +199,70 @@ class FreeReservationScheduleWebsiteController extends Controller
             // 'available_slots' => array_diff($slots, $reservedTimes), // Return available slots
         ]);
     }
+    public function getAvailableTimes(Request $request)
+    {
+        $serviceId = $request->serviceId;
+        $date = Carbon::parse($request->date);
+
+        $service = Service::findOrFail($serviceId);
+        $schedule = $service->schedule;
+
+        if (!$schedule) {
+            return response()->json(['error' => 'No schedule found for this service'], 404);
+        }
+
+        $dayOfWeek = strtolower($date->format('l'));
+        $formattedDate = $date->toDateString();
+
+        // Check for both fixed and dedicated schedules
+        $daySchedule = collect($schedule->times)->first(function ($item) use ($dayOfWeek, $formattedDate) {
+            return ($item['type'] === 'fixed' && $item['day'] === $dayOfWeek) ||
+                   ($item['type'] === 'dedicated' && $item['date'] === $formattedDate);
+        });
+
+        if (!$daySchedule || empty($daySchedule['availableTimes'])) {
+            return response()->json(['error' => 'No schedule available for this day'], 404);
+        }
+
+        $availableTimes = $daySchedule['availableTimes'];
+        $appointmentTime = (int) $daySchedule['appointmentTime'];
+        $restEachTime = (int) $daySchedule['restEachTime'];
+        $slots = [];
+
+        // Generate all possible time slots
+        foreach ($availableTimes as $timeRange) {
+            [$startTime, $endTime] = explode(' - ', $timeRange);
+
+            $currentTime = $date->copy()->setTimeFromTimeString($startTime);
+            $endDateTime = $date->copy()->setTimeFromTimeString($endTime);
+
+            while ($currentTime->lt($endDateTime)) {
+                $slotTime = $currentTime->format('H:i');
+                $slots[] = [
+                    'time' => $slotTime,
+                    'appointmentTime' => $appointmentTime
+                ];
+                $currentTime->addMinutes($appointmentTime + $restEachTime);
+            }
+        }
+
+        // Get reserved times
+        $reservations = Reservation::where('service_id', $serviceId)
+            ->whereDate('date', $formattedDate)
+            ->get();
+
+        $reservedTimes = $reservations->map(function ($reservation) {
+            return Carbon::parse($reservation->date)->format('H:i');
+        })->toArray();
+
+        // Filter out reserved times
+        $availableSlots = array_filter($slots, function($slot) use ($reservedTimes) {
+            return !in_array($slot['time'], $reservedTimes);
+        });
+
+        return response()->json([
+            'date' => $formattedDate,
+            'available_slots' => array_values($availableSlots)
+        ]);
+    }
 }

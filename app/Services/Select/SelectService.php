@@ -51,6 +51,7 @@ class SelectService
             'services' => ['getServices',ServiceSelectService::class],
             'permissions' => ['getAllPermissions', PermissionSelectService::class],
             'servicesWebsite' => ['getWebsiteServices',ServiceWebsiteSelectService::class],
+            'createService' =>['getCreateServices',ServiceSelectService::class]
             //'parameters' => ['getAllParameters', ParameterSelectService::class]
         ];
 

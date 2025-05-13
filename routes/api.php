@@ -132,6 +132,7 @@ Route::prefix("v1/{lang}/website")->group(function(){
     Route::controller(FreeReservationScheduleWebsiteController::class)->group(function(){
         Route::get('/free-schedules','index');
         Route::get('free-schedules/check-availability','checkAvailability');
+        Route::get('free-schedules/availability','getAvailableTimes');
     });
 });
 

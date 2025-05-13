@@ -16,6 +16,9 @@ class ServiceSelectService{
 
         return $query->get(['id as value', 'title as label']);
     }
-
+    public function getCreateServices( ){
+        $service = Service::where('is_active',1)->whereNull('schedule_id')->get(['id as value', 'title as label']);
+        return $service;
+    }
 }
 ?>
