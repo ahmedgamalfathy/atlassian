@@ -46,6 +46,12 @@ class ScheduleService{
             "description"=>$data['description']??null
         ]);
         $servicesId = $data['servicesId'];
+        $currentServicesIds = $schedule->services()->pluck('id')->toArray();
+        if(count($currentServicesIds) > 0){
+            foreach($currentServicesIds as $serviceId){
+            Service::where('id', $serviceId)->update(['schedule_id' => null]);
+            }
+        }
         foreach($servicesId as $serviceId)
         {
             $service= Service::findOrFail($serviceId);
