@@ -47,13 +47,13 @@ class ForgotPasswordController extends Controller
         DB::beginTransaction();
         try {
             $data= $request->validate([
-                'code' => 'required|exists:users,code',
+                'code' => 'required',
                 'userId'=>['required','exists:users,id']
             ]);
            $user = User::findOrFail($data['userId']);
            if($user->code != $data['code']){
              return response()->json([
-                'message'=>__('messages.error.not_found')
+                'message'=>__('messages.error.invaild_cod')
              ],422);
            }
            if($user->expired_at < now()){
@@ -71,7 +71,7 @@ class ForgotPasswordController extends Controller
             ]);
         } catch (\Throwable $th) {
            DB::rollBack();
-            return $th;
+            return $th->getMessage();
         }
 
     }

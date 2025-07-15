@@ -47,5 +47,6 @@ return [
     'error' => [
         'not_found' => 'record not found!',
         'unauthorized' => 'You are not authorized to perform this action.',
+        'invaild_cod'=>'code invaild ! '
     ],
 ];
