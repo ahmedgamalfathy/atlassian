@@ -26,12 +26,15 @@ class UserService{
 
     public function allUsers()
     {
+        $auth = auth()->user();
         $user = QueryBuilder::for(User::class)
             ->allowedFilters([
                 AllowedFilter::custom('search', new FilterUser()), // Add a custom search filter
                 AllowedFilter::exact('status'),
                 AllowedFilter::custom('role', new FilterUserRole()),
-            ])->get();
+            ])
+            ->whereNot('id', $auth->id)
+            ->get();
 
         return $user;
 
