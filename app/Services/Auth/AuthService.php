@@ -56,7 +56,7 @@ class AuthService
                 ], 401);
             }
 
-            if($userToken && Auth::user()->status == UserStatus::INACTIVE){
+            if($userToken && Auth::user()->status == UserStatus::INACTIVE->value){
                 return response()->json([
                     'message' => 'هذا الحساب غير مفعل!',
                 ], 401);
@@ -83,7 +83,7 @@ class AuthService
         }
 
     }
-    
+
     public function logout()
     {
         Auth::logout();
